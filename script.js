@@ -16,15 +16,18 @@ function displayIssues(issues){
     issues.forEach(issue=>{
         let border=issue.status==="open"?"border-green-500":"border-purple-500"
         let card=document.createElement("div")
-        card.className=`bg-white p-4 rounded shadow border-t-4 ${border} cursor-pointer hover:shadow-lg `
+        let priorityClass= issue.priority.toLowerCase()==="high"? "bg-red-100 text-red-600": issue.priority.toLowerCase()==="medium"?"bg-yellow-100 text-yellow-600":"bg-gray-100 text-gray-600"
+        card.className=` relative bg-white p-4 pt-8 rounded shadow border-t-4 ${border} cursor-pointer hover:shadow-lg `
+        let statusIcon= issue.status.toLowerCase() === "open" ? "image/Open-Status.png" : "image/Closed-Status.png";
 
         card.innerHTML=`<div class="flex justify-between mb-2">
-                        <span class="text-xs bg-red-100 text-red-500 px-2 py-1 rounded">${issue.priority}</span>
+                        <img src="${statusIcon}" class="absolute top-2 left-2 w-5 h-5">
+                        <span class="absolute top-2 right-2 text-xs px-2 py-1 rounded ${priorityClass}">${issue.priority}</span>
                         </div>
                         
-                        <h3 class="font-semibold text-sm mb-1">${issue.title}</h3>
+                        <h3 class="font-semibold text-sm mb-1 mt-2">${issue.title}</h3>
 
-                        <p class="text-gray-500 text-xs mb-3">${issue.description}</p>
+                        <p class="text-gray-500 text-xs mb-3 line-clamp-2">${issue.description}</p>
 
                         
                         <div class="flex gap-2 mb-3 text-xs">
@@ -70,7 +73,7 @@ async function openModal(id) {
 
     document.getElementById("modalTitle").innerText= issue.title
     document.getElementById("modalDescription").innerText= issue.description
-    document.getElementById("modalAuthor").innerText= "Opened by" +issue.author
+    document.getElementById("modalAuthor").innerText= `Opened by ${issue.author} - ${new Date(issue.createdAt).toLocaleDateString()}`
     document.getElementById("modalAssignee").innerText= issue.author
 
     let priorityColor= issue.priority.toLowerCase() === "high"? "bg-red-500":issue.priority.toLowerCase()==="medium"? "bg-yellow-500":"bg-gray-400"
