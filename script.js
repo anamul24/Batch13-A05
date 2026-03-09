@@ -1,3 +1,6 @@
+if(localStorage.getItem("login")!=="true"){
+    window.location.href="login.html";
+}
 const API="https://phi-lab-server.vercel.app/api/v1/lab/issues"
 const container=document.getElementById("issuesContainer")
 async function loadIssues() {
